@@ -2,10 +2,12 @@
   "name"        : "stats"
 , "main"        : "./lib/index.js"
 , "version"     : "0.1.0"
-, "description" : "A module to collect and display performance stats"
+, "description" : "A module for collecting internal application statistics"
 , "keywords"    : ["performance", "stats", "statistics", "monitor"
-                  , "monitoing"]
+                  , "monitoring"]
 , "homepage"    : "https://github.com/lleo/node-stats"
+, "repository"  : { "type": "git"
+                  , "url" : "https://github.com/lleo/node-stats.git"}
 , "bugs"        : { "url": "https://github.com/lleo/node-stats/issues"
                   , "email": "lleoem@gmail.com" }
 , "dependencies": { "printf"    : ">=0.0.4"
