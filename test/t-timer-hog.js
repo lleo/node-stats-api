@@ -18,18 +18,15 @@ function sin_rand(x) {
 
 var tm = new stats.Timer()
   , vl = new stats.Value("frobs")
-  //, hog = new stats.Histogram(new stats.Linear(10, "u"), vl)
-  //, hog = new stats.Histogram(new stats.LogMS(), tm)
-  //, hog = new stats.Histogram(new stats.LinLogMS(), tm)
-  , hog = new stats.Histogram(tm, new stats.SemiLogMS())
+  //, hog = new stats.Histogram(vl, new stats.Linear(10, "u"))
+  //, hog = new stats.Histogram(tm, new stats.LogMS())
+  , hog = new stats.Histogram(tm, new stats.LinLogMS())
+  //, hog = new stats.Histogram(tm, new stats.SemiLogMS())
   , ns = stats.getStats()
 
 //ns.set('test', vl)
 ns.set('test', tm)
 ns.set('test_hog', hog)
-
-//log(inspect(hog, true, 4))
-//process.exit(0)
 
 var done = tm.start()
 function fire() {
