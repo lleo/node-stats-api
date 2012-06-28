@@ -187,10 +187,10 @@ When the Stat object emits a value `inc(1)` is called.
 ### `MovingAverage(opt)`
 `opt` is a required object with two required properties: `units` and `nelts`.
 'units' is used in `toString()`. `nelts` is the number of values stored to
-calculate the moving average. [see Wikipedia's definition][MovingAverage]
+calculate the moving average. [see Wikipedia's Simple moving average definition][MovingAverage]
 
-[MovingAverage]: http://en.wikipedia.org/wiki/Moving_average
-  "Wikipedia's entry for Moving average"
+[MovingAverage]: http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average
+  "Wikipedia's entry for Simple moving average"
 
 ##### Methods
   * `add(v)` adds a value `v` to the MovingAverage's fixed internal array of
@@ -202,7 +202,7 @@ calculate the moving average. [see Wikipedia's definition][MovingAverage]
 ### `RunningAverage(opt)`
 `opt` is a required object with two required properties: `units` and `nelts`.
 'units' is used in `toString()`. `nelts` is the number of values stored to
-calculate the moving average. [see Wikipedia's definition][RunningAverage]
+calculate the moving average. [see Wikipedia's Running moving average definition][RunningAverage]
 
 [RunningAverage]: http://en.wikipedia.org/wiki/Moving_average#Modified_moving_average
   "Wikipedia's entry for Modified moving average"
