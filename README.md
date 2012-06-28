@@ -115,7 +115,7 @@ bucket is display in.
 
 ## Abstract Base class
 
-### Stat
+### Class: `Stat`
 Has no internal stat and just one function.
 
 #### Methods
@@ -125,17 +125,17 @@ Has no internal stat and just one function.
 
 ## Base Stat classes
 
-### `Value([opt])`
+### Class: `Value([opt])`
 `opt` is a optional object with only one property 'units' which is used
 in `toString()`
 
-### Methods
+#### Methods
 * `set(value)`
   Stores and publishes `value`
 * `toString()`
   returns format("%d %s", value, units)
 
-### `Timer()`
+### Class: `Timer()`
 Stores the last value published
 
 #### Methods
@@ -149,7 +149,7 @@ Stores the last value published
   returns `format("%d %s", value, units)` where value is the last value
   published.
 
-### `Count(opt)`
+### Class: `Count(opt)`
 `opt` is a object with only one required property 'units' which is used in
 `toString()`. The second property `stat` provides a Stat object.
 When the Stat object emits a value `inc(1)` is called.
@@ -161,7 +161,7 @@ When the Stat object emits a value `inc(1)` is called.
 * `toString()`
   returns format("%d %s", value, units)
 
-### `Rate(opt)`
+### Class: `Rate(opt)`
 `opt` is a required object with the following properties:
 
 #### Options
