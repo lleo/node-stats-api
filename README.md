@@ -117,6 +117,8 @@ bucket is display in.
 
 ### Stat
 Has no internal stat and just one function.
+
+#### Methods
 * publish(err, value)
   if (err) emit('error', err, value)
   else     emit('value', value)
@@ -126,6 +128,8 @@ Has no internal stat and just one function.
 ### `Value([opt])`
 `opt` is a optional object with only one property 'units' which is used
 in `toString()`
+
+### Methods
 * `set(value)`
   Stores and publishes `value`
 * `toString()`
@@ -133,6 +137,8 @@ in `toString()`
 
 ### `Timer()`
 Stores the last value published
+
+#### Methods
 * `start()`
   Returns a function closed over when `start()` was called.
   When that function is called (no args) stores & publishes the current
@@ -147,6 +153,8 @@ Stores the last value published
 `opt` is a object with only one required property 'units' which is used in
 `toString()`. The second property `stat` provides a Stat object.
 When the Stat object emits a value `inc(1)` is called.
+
+### Methods
 * `inc([i])`
   Increments the internal value by `i` and publishes `i`. If no argument is
   provided `i = 1`.
@@ -156,16 +164,18 @@ When the Stat object emits a value `inc(1)` is called.
 ### `Rate(opt)`
 `opt` is a required object with the following properties:
 
-> * `'units'` (require) is used in `toString()`. 
-> * `'stat'` (optional) Stat object. When `'value'` is emitted Rate will
->   accumulate `value` to its' internal value property.
-> * `'period'` (default: 1) number of `interval` milliseconds between publishes
->   of the calculated rate. Additionally, we calculate rate by dividing the
->   internal value property by `period` aka `rate = value / period`.
-> * `'interval'` (default: 1000) number of milliseconds per `period`. For
->   example, if `period` is 60 and `interval` is 1000 then the rate will be
->   published every minute, where `rate = value / 60`.
+#### Options
+* `'units'` (required) is used in `toString()`. 
+* `'stat'` (optional) Stat object. When `'value'` is emitted Rate will
+  accumulate `value` to its' internal value property.
+* `'period'` (default: 1) number of `interval` milliseconds between publishes
+  of the calculated rate. Additionally, we calculate rate by dividing the
+  internal value property by `period` aka `rate = value / period`.
+* `'interval'` (default: 1000) number of milliseconds per `period`. For
+  example, if `period` is 60 and `interval` is 1000 then the rate will be
+  published every minute, where `rate = value / 60`.
 
+#### Methods
 * `add(value)` Add `value` to the internal value of Rate
 * `reset()` set internal value to 0, and emit a 'reset' event with the old
   value as its' parameter.
