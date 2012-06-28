@@ -155,6 +155,7 @@ When the Stat object emits a value `inc(1)` is called.
 
 ### `Rate(opt)`
 `opt` is a required object with the following properties:
+
 > * `'units'` (require) is used in `toString()`. 
 > * `'stat'` (optional) Stat object. When `'value'` is emitted Rate will
 >   accumulate `value` to its' internal value property.
@@ -164,6 +165,7 @@ When the Stat object emits a value `inc(1)` is called.
 > * `'interval'` (default: 1000) number of milliseconds per `period`. For
 >   example, if `period` is 60 and `interval` is 1000 then the rate will be
 >   published every minute, where `rate = value / 60`.
+
 * `add(value)` Add `value` to the internal value of Rate
 * `reset()` set internal value to 0, and emit a 'reset' event with the old
   value as its' parameter.
