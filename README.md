@@ -115,7 +115,7 @@ bucket is display in.
 
 ## Abstract Base class
 
-### Class: `Stat`
+### `Stat`
 Has no internal stat and just one function.
 
 #### Methods
@@ -125,7 +125,7 @@ Has no internal stat and just one function.
 
 ## Base Stat classes
 
-### Class: `Value([opt])`
+### `Value([opt])`
 `opt` is a optional object with only one property 'units' which is used
 in `toString()`
 
@@ -135,7 +135,7 @@ in `toString()`
 * `toString()`
   returns format("%d %s", value, units)
 
-### Class: `Timer()`
+### `Timer()`
 Stores the last value published
 
 #### Methods
@@ -149,7 +149,9 @@ Stores the last value published
   returns `format("%d %s", value, units)` where value is the last value
   published.
 
-### Class: `Count(opt)`
+## Consuming Stat classes
+
+### `Count(opt)`
 `opt` is a object with only one required property 'units' which is used in
 `toString()`. The second property `stat` provides a Stat object.
 When the Stat object emits a value `inc(1)` is called.
@@ -161,17 +163,17 @@ When the Stat object emits a value `inc(1)` is called.
 * `toString()`
   returns format("%d %s", value, units)
 
-### Class: `Rate(opt)`
+### `Rate(opt)`
 `opt` is a required object with the following properties:
 
 #### Options
-* `'units'` (required) is used in `toString()`. 
-* `'stat'` (optional) Stat object. When `'value'` is emitted Rate will
-  accumulate `value` to its' internal value property.
-* `'period'` (default: 1) number of `interval` milliseconds between publishes
+* `units` (required) is used in `toString()`. 
+* `stat` (optional) Stat object. When the Stat object emits a `'value'` Rate
+  will accumulate the `value` to its' internal value property.
+* `period` (default: 1) number of `interval` milliseconds between publishes
   of the calculated rate. Additionally, we calculate rate by dividing the
-  internal value property by `period` aka `rate = value / period`.
-* `'interval'` (default: 1000) number of milliseconds per `period`. For
+  internal value property by `period` (eg. `rate = value / period`).
+* `interval` (default: 1000) number of milliseconds per `period`. For
   example, if `period` is 60 and `interval` is 1000 then the rate will be
   published every minute, where `rate = value / 60`.
 
@@ -182,12 +184,33 @@ When the Stat object emits a value `inc(1)` is called.
 * `toString()` returns `format("%s %s", last, units)` where `last` is the last
   value published with `publish()`.
 
-## Consuming Stat classes
+### `MovingAverage(opt)`
+`opt` is a required object with two required properties: `units` and `nelts`.
+'units' is used in `toString()`. `nelts` is the number of values stored to
+calculate the moving average. [see Wikipedia's definition][MovingAverage]
 
-* Count
-* Rate
-* MovingAverage
-* RunningAverage
+[MovingAverage]: http://en.wikipedia.org/wiki/Moving_average
+  "Wikipedia's entry for Moving average"
+
+##### Methods
+  * `add(v)` adds a value `v` to the MovingAverage's fixed internal array of
+    the last `nelts` values.
+  * `toString()` returns `format("%s %s", mavg, units)` where `mavg` is the
+    last calculated moving average or the average of the values accumulated so
+    far if the number of values is less than `nelts`.
+
+### `RunningAverage(opt)`
+`opt` is a required object with two required properties: `units` and `nelts`.
+'units' is used in `toString()`. `nelts` is the number of values stored to
+calculate the moving average. [see Wikipedia's definition][RunningAverage]
+
+[RunningAverage]: http://en.wikipedia.org/wiki/Moving_average#Modified_moving_average
+  "Wikipedia's entry for Modified moving average"
+
+##### Methods
+  * `add(v)` uses the value `v` to calculate the RunningAverage
+  * `toString()` returns `format("%s %s", ravg, units)` where `ravg` is the
+    last calculated running average.
 
 ## Histogram Bucketer classes
 
