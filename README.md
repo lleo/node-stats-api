@@ -74,19 +74,19 @@ events to update their own values. For instance, lets say your base Stat is
 a request size. We create a Stat for request size either directly or within
 the context of a NameSpace:
 
-  var req_size = new Value({units: 'bytes'})
+    var req_size = new Value({units: 'bytes'})
 
 or
 
-  stats.createStat('req_size', Value, {units:'bytes'})
+    stats.createStat('req_size', Value, {units:'bytes'})
 
 When a new request comes in we just set the value for 'req_size' like so:
 
-  req_size.set(req.size)
+    req_size.set(req.size)
 
 or
 
-  stats.get('req_size').set(req.size)
+    stats.get('req_size').set(req.size)
 
 [Note: From this point on I am just going to use the NameSpace version of
 this API because that is how you _should_ be using this API.]
@@ -115,37 +115,60 @@ bucket is display in.
 
 ## Abstract Base class
 
-* Stat
-  Has no internal stat and just one function.
-  * publish(err, value)
-    if (err) emit('error', err, value)
-    else     emit('value', value)
+### Stat
+Has no internal stat and just one function.
+* publish(err, value)
+  if (err) emit('error', err, value)
+  else     emit('value', value)
 
 ## Base Stat classes
 
-* `Value([opt])`
-  `opt` is a optional object with only one property 'units' which is used
-  in `toString()`
-  * `set(value)`
-    Stores and publishes `value`
-  * `toString()`
-    returns format("%d %s", value, units)
-* `Timer()`
-  Stores the last value published
-  * `start()`
-    Returns a function closed over when `start()` was called.
-    When that function is called (no args) stores & publishes the current
-    time versus the time when `start()` was called. If it is called with an
-    arg, that arg is published as the error and the time delta as the second
-    argument.
-* `Count(opt)`
-  `opt` is a object with only one required property 'units' which is used in
-  `toString()`. The second property `stat` provides a Stat object.
-  When the Stat object emits a value `inc(1)` is called.
-  * `inc([i])`
-    Increments the internal value by `i` and publishes `i`. If no argument is
-    provided `i=1`.
-* `Rate(opt)`
+### `Value([opt])`
+`opt` is a optional object with only one property 'units' which is used
+in `toString()`
+* `set(value)`
+  Stores and publishes `value`
+* `toString()`
+  returns format("%d %s", value, units)
+
+### `Timer()`
+Stores the last value published
+* `start()`
+  Returns a function closed over when `start()` was called.
+  When that function is called (no args) stores & publishes the current
+  time versus the time when `start()` was called. If it is called with an
+  arg, that arg is published as the error and the time delta as the second
+  argument.
+* `toString()`
+  returns `format("%d %s", value, units)` where value is the last value
+  published.
+
+### `Count(opt)`
+`opt` is a object with only one required property 'units' which is used in
+`toString()`. The second property `stat` provides a Stat object.
+When the Stat object emits a value `inc(1)` is called.
+* `inc([i])`
+  Increments the internal value by `i` and publishes `i`. If no argument is
+  provided `i = 1`.
+* `toString()`
+  returns format("%d %s", value, units)
+
+### `Rate(opt)`
+`opt` is a required object with the following properties:
+> * `'units'` (require) is used in `toString()`. 
+> * `'stat'` (optional) Stat object. When `'value'` is emitted Rate will
+>   accumulate `value` to its' internal value property.
+> * `'period'` (default: 1) number of `interval` milliseconds between publishes
+>   of the calculated rate. Additionally, we calculate rate by dividing the
+>   internal value property by `period` aka `rate = value / period`.
+> * `'interval'` (default: 1000) number of milliseconds per `period`. For
+>   example, if `period` is 60 and `interval` is 1000 then the rate will be
+>   published every minute, where `rate = value / 60`.
+* `add(value)` Add `value` to the internal value of Rate
+* `reset()` set internal value to 0, and emit a 'reset' event with the old
+  value as its' parameter.
+* `toString()` returns `format("%s %s", last, units)` where `last` is the last
+  value published with `publish()`.
 
 ## Consuming Stat classes
 
