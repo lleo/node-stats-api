@@ -2,13 +2,13 @@
 
 var util = require('util')
   , log = console.log
-  , statsmod = require('stats')
-  , stats = statsmod.getStats()
+  , Stats = require('..')
+  , stats = Stats()
   , rand = require('../lib/utils').rand
 
-stats.createStat( 't1', statsmod.Value, {units: 'bytes'})
+stats.createStat( 't1', Stats.Value, {units: 'bytes'})
 
-stats.createStat( 't1_rate', statsmod.Rate,
+stats.createStat( 't1_rate', Stats.Rate,
                   { units   : 'bytes/sec'
                   , period  : 10
                   , interval: 1000

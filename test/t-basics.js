@@ -2,8 +2,8 @@
 
 var util = require('util')
   , log = console.log
-  , statsmod = require('stats')
-  , stats = statsmod.getStats()
+  , Stats = require('..')
+  , stats = Stats()
   , fprintf = require('printf')
   , rand = require('../lib/utils').rand
 
@@ -14,18 +14,18 @@ var printf = function printf() {
 }
 
 // Declare Stat(s)
-stats.createStat('t0', statsmod.Timer)
+stats.createStat('t0', Stats.Timer)
 stats.get('t0').on('value', function(v){
   printf("t0                = %5.3f\n", v/1000)
 })
 
-stats.createStat( 't0_mavg', statsmod.MovingAverage
+stats.createStat( 't0_mavg', Stats.MovingAverage
                 , {nelts: 3, stat: stats.get('t0')} )
 stats.get('t0_mavg').on('value', function(v){
   printf("t0 MovingAverage  = %5.3f\n", v/1000)
 })
 
-stats.createStat( 't0_ravg', statsmod.RunningAverage
+stats.createStat( 't0_ravg', Stats.RunningAverage
                 , {nelts: 3, stat: stats.get('t0')} )
 stats.get('t0_ravg').on('value', function(v){
   printf("t0 RunningAverage = %5.3f\n", v/1000)

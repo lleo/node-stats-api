@@ -2,16 +2,16 @@
 
 var util = require('util')
   , log = console.log
-  , statsmod = require('stats')
-  , stats = statsmod.getStats()
+  , Stats = require('..')
+  , stats = Stats()
   , rand = require('../lib/utils').rand
 
 
-stats.createStat('t2', statsmod.Count, {units: 'hits'})
+stats.createStat('t2', Stats.Count, {units: 'hits'})
 
 setInterval(function(){ stats.get('t2').inc() }, 100)
 
-stats.createStat( 't2_rate', statsmod.Rate,
+stats.createStat( 't2_rate', Stats.Rate,
                   { stat    : stats.get('t2')
                   , period  : 1
                   , interval: 1000

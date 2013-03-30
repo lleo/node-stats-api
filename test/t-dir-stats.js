@@ -3,28 +3,28 @@
 var fs = require('fs')
   , path = require('path')
   , async = require('async')
-  , statsmod = require('stats')
-  , stats = statsmod.getStats()
+  , Stats = require('..')
+  , stats = Stats()
   , log = console.log
 
 var DIR = process.argv[2] || '.'
 log("DIR=%s", DIR)
 
-stats.createStat('file_sz', statsmod.Value)
-stats.createHOG('file_sz_hog_reg' , 'file_sz', statsmod.Bytes)
-stats.createHOG('file_sz_hog_semi', 'file_sz', statsmod.SemiBytes)
-stats.createHOG('file_sz_hog_log' , 'file_sz', statsmod.LogBytes)
+stats.createStat('file_sz', Stats.Value)
+stats.createHOG('file_sz_hog_reg' , 'file_sz', Stats.Bytes)
+stats.createHOG('file_sz_hog_semi', 'file_sz', Stats.SemiBytes)
+stats.createHOG('file_sz_hog_log' , 'file_sz', Stats.LogBytes)
 
-stats.createStat('time_to_stat', statsmod.Timer)
-stats.createHOG('time_to_stat_hog_reg' , 'time_to_stat', statsmod.LogMS)
-stats.createHOG('time_to_stat_hog_semi', 'time_to_stat', statsmod.SemiLogMS)
-stats.createHOG('time_to_stat_hog_log' , 'time_to_stat', statsmod.LinLogMS)
+stats.createStat('time_to_stat', Stats.Timer)
+stats.createHOG('time_to_stat_hog_reg' , 'time_to_stat', Stats.LogMS)
+stats.createHOG('time_to_stat_hog_semi', 'time_to_stat', Stats.SemiLogMS)
+stats.createHOG('time_to_stat_hog_log' , 'time_to_stat', Stats.LinLogMS)
 
 fs.readdir(DIR, function(err, files){
   var files = files.map(function(file){
     return path.join(DIR, file)
   })
-  async.map(files, 
+  async.map(files,
     function(file, cb){
       var done = stats.get('time_to_stat').start()
       fs.lstat(file, function(err, stat){
@@ -47,4 +47,3 @@ fs.readdir(DIR, function(err, files){
       log( stats.toString({indent:'', hash:true}) )
     })
 })
-

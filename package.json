@@ -1,6 +1,6 @@
 {
   "name"        : "stats"
-, "main"        : "./lib/index.js"
+, "main"        : "./lib/stats.js"
 , "version"     : "0.1.0"
 , "description" : "A module for collecting internal application statistics"
 , "keywords"    : ["performance", "stats", "statistics", "monitor"

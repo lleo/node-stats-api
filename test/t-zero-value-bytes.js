@@ -5,12 +5,12 @@ var fs = require('fs')
   , util = require('util')
   , inspect = util.inspect
   , async = require('async')
-  , statsmod = require('stats')
-  , stats = statsmod.getStats()
+  , Stats = require('..')
+  , stats = Stats()
   , utils = require('../lib/utils')
   , log = console.log
 
-//log(inspect(statsmod))
+//log(inspect(Stats))
 log("argv=%s", inspect(process.argv))
 
 //DIR = process.argv[2]
@@ -23,9 +23,9 @@ var v = 0
 //log("Math.log(%d) => %d", v, Math.log(v))
 //log("log2(%d) => %d", v, log2(v))
 
-stats.createStat('file_sz', statsmod.Value)
-stats.createHog('file_sz_hog', 'file_sz', statsmod.Bytes)
-stats.createHog('file_sz_hog', 'file_sz', statsmod.LogBytes)
+stats.createStat('file_sz', Stats.Value)
+stats.createHog('file_sz_hog bytes', 'file_sz', Stats.Bytes)
+stats.createHog('file_sz_hog log bytes', 'file_sz', Stats.LogBytes)
 
 stats.get('file_sz').set(0)
 log(stats.toString())

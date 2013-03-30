@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var stats = require('stats')
+var Stats = require('..')
   , util = require('util')
   , format = util.format
   , inspect = util.inspect
@@ -16,17 +16,17 @@ function sin_rand(x) {
   return rv
 }
 
-var tm = new stats.Timer()
-  , vl = new stats.Value("frobs")
-  //, hog = new stats.Histogram(vl, new stats.Linear(10, "u"))
-  //, hog = new stats.Histogram(tm, new stats.LogMS())
-  , hog = new stats.Histogram(tm, new stats.LinLogMS())
-  //, hog = new stats.Histogram(tm, new stats.SemiLogMS())
-  , ns = stats.getStats()
+var tm = new Stats.Timer()
+  , vl = new Stats.Value("frobs")
+  //, hog = new Stats.Histogram(vl, new Stats.Linear(10, "u"))
+  //, hog = new Stats.Histogram(tm, new Stats.LogMS())
+  , hog = new Stats.Histogram(tm, new Stats.LinLogMS())
+  //, hog = new Stats.Histogram(tm, new Stats.SemiLogMS())
+  , stats = Stats()
 
-//ns.set('test', vl)
-ns.set('test', tm)
-ns.set('test_hog', hog)
+//stats.set('test', vl)
+stats.set('test', tm)
+stats.set('test_hog', hog)
 
 var done = tm.start()
 function fire() {
@@ -45,6 +45,6 @@ setInterval(function(){
   //log( hog.toString({orient:'vertical', values:'both', hash: true}))
   //log( hog.toString({orient:'horizontal', values:'both'}))
   //log( hog.toString({orient:'horizontal', values:'percentage'}) )
-  log( ns.toString({orient:'horizontal', values:'both'}) )
+  log( stats.toString({orient:'horizontal', values:'both'}) )
   log("--")
 }, 1000)
