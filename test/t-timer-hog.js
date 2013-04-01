@@ -16,35 +16,36 @@ function sin_rand(x) {
   return rv
 }
 
-var tm = new Stats.Timer()
+var tm_ms = new Stats.TimerMS()
   , vl = new Stats.Value("frobs")
-  //, hog = new Stats.Histogram(vl, new Stats.Linear(10, "u"))
-  //, hog = new Stats.Histogram(tm, new Stats.LogMS())
-  , hog = new Stats.Histogram(tm, new Stats.LinLogMS())
-  //, hog = new Stats.Histogram(tm, new Stats.SemiLogMS())
+  , hogLin = new Stats.Histogram(tm_ms, new Stats.Linear(10, "ms"))
+  , hogLMS = new Stats.Histogram(tm_ms, Stats.logMS)
+  , hogLLMS = new Stats.Histogram(tm_ms, Stats.linLogMS)
+  , hogSLMS = new Stats.Histogram(tm_ms, Stats.semiLogMS)
   , stats = Stats()
 
 //stats.set('test', vl)
-stats.set('test', tm)
-stats.set('test_hog', hog)
+stats.set('test', tm_ms)
+stats.set('test HOG Linear', hogLin)
+stats.set('test HOG logMS', hogLMS)
+stats.set('test HOG linLogMS', hogLLMS)
+stats.set('test HOG semiLogMS', hogSLMS)
 
-var done = tm.start()
+var done_ms = tm_ms.start()
 function fire() {
   setTimeout(function(){
-    done()
-    done = tm.start()
-//    vl.set(sin_rand(50))
+    done_ms()
+    done_ms = tm_ms.start()
     fire()
-//  }, 10)
   }, rand(999))
 }
 fire()
 
 setInterval(function(){
   //log(inspect(hog, true, 4))
-  //log( hog.toString({orient:'vertical', values:'both', hash: true}))
+  log( stats.toString({orient:'vertical', values:'both', hash: true}))
   //log( hog.toString({orient:'horizontal', values:'both'}))
   //log( hog.toString({orient:'horizontal', values:'percentage'}) )
-  log( stats.toString({orient:'horizontal', values:'both'}) )
+  //log( stats.toString({orient:'horizontal', values:'both'}) )
   log("--")
 }, 1000)
