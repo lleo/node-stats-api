@@ -1,0 +1,16 @@
+/* global describe it */
+
+var assert = require('assert')
+
+var Stats
+
+describe("Stats Module", function(){
+  it("should load", function(){
+    Stats = require('..')
+  })
+
+  it("should return a NameSpace object", function(){
+    var stats = Stats()
+    assert.ok(stats instanceof Stats.NameSpace)
+  })
+})
