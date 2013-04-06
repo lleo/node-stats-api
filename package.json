@@ -1,8 +1,8 @@
 {
   "name"        : "stats"
 , "main"        : "lib/stats.js"
-, "version"     : "0.1.0"
-, "description" : "A module for collecting internal application statistics"
+, "version"     : "1.0.0"
+, "description" : "A module for collecting internal statistics"
 , "keywords"    : ["performance", "stats", "statistics", "monitor"
                   , "monitoring"]
 , "homepage"    : "https://github.com/lleo/node-stats"
