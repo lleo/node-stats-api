@@ -19,7 +19,7 @@ Here is a sketched out example code of using stats, histograms, and namespaces.
       , stats = Stats() //a singleton NameSpace for all your stats, histograms,
                         // and namespaces
                         //returns a singleton via `new Stats()` as well
-      , myns = skats.createNameSpace('my app')    
+      , myns = stats.createNameSpace('my app')    
 
     myns.createStat('rsp time', Stats.TimerMS)
     myns.createStat('rsp size', Stats.Value, {units:'bytes'})
@@ -240,8 +240,14 @@ Inherits from Value which inherits from Stat. So there is `publish()`,
 
 
 ### `MovingAverage(opt)`
-`opt` is a required object with two required properties: `units` and `nelts`.
-'units' is used in `toString()`. `nelts` is the number of values stored to
+`opt` is a required object with one required property `stat` and two optional `units` and `nelts`.
+
+`opt.stat` must be a object of type Stat.
+
+'opt.units' is optional. If it is provided it will be used instead of 
+`opt.stat.units` . Mostly, `opt.units` is not needed.
+
+`nelts` ioptional and defaults to 10. It is the number of values stored to
 calculate the moving average. [see Wikipedia's Simple moving average definition][MovingAverage]
 
 [MovingAverage]: http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average
@@ -258,9 +264,16 @@ calculate the moving average. [see Wikipedia's Simple moving average definition]
 
 
 ### `RunningAverage(opt)`
-`opt` is a required object with two required properties: `units` and `nelts`.
-'units' is used in `toString()`. `nelts` is the number of values stored to
-calculate the running average. [see Wikipedia's Running moving average definition][RunningAverage]
+`opt` is a required object with one require property 'stat' and two optional
+properties: `units` and `nelts`.
+
+`opt.stat` must be a object of type Stat.
+
+'opt.units' is optional. If it is provided it will be used instead of 
+`opt.stat.units` . Mostly, `opt.units` is not needed.
+
+`opt.nelts` is optional and defaults to 10. It is the number used to calculate
+the running average. [see Wikipedia's Running moving average definition][RunningAverage]
 
 [RunningAverage]: http://en.wikipedia.org/wiki/Moving_average#Modified_moving_average
   "Wikipedia's entry for Modified moving average"
