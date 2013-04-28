@@ -129,11 +129,16 @@ Has no internal state.
 Inherits from `EventEmitter`.
 
 #### Methods
-* publish(err, value)
-    if (err) emit('error', err, value)
-    else     emit('value', value)
+* `publish(err, value)`
 
+```javascript
+if (err) emit('error', err, value)
+else     emit('value', value)
+```
 
+* `reset()`
+
+Emit a `reset` event.
 
 ### `Value([opt])`
 `opt` is a optional object with only one property 'units' which is used
@@ -142,6 +147,9 @@ in `toString()`
 Inherits from Stat.
 
 #### Properties
+
+* `_value`
+  Internal, aka private, storage variable for the value of a stat.
 
 * `value`
   Assigning to `value` causes a publish. (ssh! its magic)
@@ -155,6 +163,9 @@ Inherits from Stat.
 
 * `get()`
   Returns what is stored in `value` property.
+
+* `reset()`
+  Set `_value` to `undefined` and emit a `reset` event.
 
 * `toString([opt])`
   * `opt.sigDigits` number of significant digits of value displayed.
@@ -219,6 +230,12 @@ Inherits from Value which inherits from Stat. So there is `publish()`,
   Increments the internal value by `i` and publishes `i`. If no argument is
   provided `i = 1`.
 
+* `reset()`
+  Sets the count to 0. Emits a `reset` event. Returns the old count value.
+
+* `reset()` set internal value to 0, and emit a 'reset' event. Return the old
+  value.
+
 ### `Rate(opt)`
 `opt` is a required object with the following properties:
 
@@ -234,10 +251,9 @@ Inherits from Value which inherits from Stat. So there is `publish()`,
 
 #### Methods
 * `add(value)` Add `value` to the internal value of Rate
-* `reset()` set internal value to 0, and emit a 'reset' event with the old
-  value as its' parameter.
 
-
+* `reset()` set internal accumulator value to 0, and emit a 'reset' event.
+  Return with the old value.
 
 ### `MovingAverage(opt)`
 `opt` is a required object with one required property `stat` and two optional `units` and `nelts`.
@@ -254,14 +270,15 @@ calculate the moving average. [see Wikipedia's Simple moving average definition]
   "Wikipedia's entry for Simple moving average"
 
 ##### Methods
-  * `add(v)` adds a value `v` to the MovingAverage's fixed internal array of
+* `add(v)` adds a value `v` to the MovingAverage's fixed internal array of
     the last `nelts` values.
-  * `toString()` returns `format("%s %s", mavg, units)` where `mavg` is the
-    last calculated moving average or the average of the values accumulated so
-    far if the number of values is less than `nelts`.
 
+* `toString()` returns `format("%s %s", mavg, units)` where `mavg` is the
+  last calculated moving average or the average of the values accumulated so
+  far if the number of values is less than `nelts`.
 
-
+* `reset()` sets the internal `_value` to 0. Deletes the internal list of the
+  last `nelts` values. Emit a 'reset' event. Returns the old `_value`.
 
 ### `RunningAverage(opt)`
 `opt` is a required object with one require property 'stat' and two optional
@@ -279,9 +296,7 @@ the running average. [see Wikipedia's Running moving average definition][Running
   "Wikipedia's entry for Modified moving average"
 
 ##### Methods
-  * `add(v)` uses the value `v` to calculate the RunningAverage
-
-
+* `add(v)` uses the value `v` to calculate the RunningAverage
 
 ## Histogram Bucketer classes
 
