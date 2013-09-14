@@ -1,7 +1,7 @@
 {
   "name"        : "stats-api"
 , "main"        : "lib/stats.js"
-, "version"     : "1.1.0"
+, "version"     : "1.1.1"
 , "description" : "A module for collecting internal application/library performance statistics"
 , "keywords"    : ["performance", "stats", "statistics", "monitor"
                   , "monitoring"]
@@ -15,4 +15,14 @@
                   , "lodash": ">=1.1.1" }
 , "devDependencies": {"mocha" : "*"}
 , "engines" : {"node" : ">= 0.4.0"}
+, "files" : [ "packaget.json"
+	    , "README.md"
+	    , "lib/stats.js"
+	    , "lib/utils.js"
+	    , "test/data.json"
+	    , "test/timings.json"
+	    , "test/01-Stats.js"
+	    , "test/02-NameSpace.js"
+	    , "test/03-FillAllStats.js"
+	    ]
 }
