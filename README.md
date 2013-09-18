@@ -84,7 +84,7 @@ the context of a NameSpace:
 
 or
 
-    myns.createStat('req_size', Value, {units:'bytes'})
+    myns.createStat('req_size', Stats.Value, {units:'bytes'})
 
 When a new request comes in we just set the value for 'req_size' like so:
 
